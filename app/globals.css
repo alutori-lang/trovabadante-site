@@ -16,6 +16,11 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
@@ -42,6 +47,8 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 .logo {
   font-size: 1.5rem;
@@ -74,6 +81,8 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800;
   margin-bottom: 12px;
   line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .hero p {
   font-size: 1.1rem;
@@ -87,6 +96,7 @@ a { color: inherit; text-decoration: none; }
   max-width: 700px;
   margin: 0 auto;
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   background: white;
   border-radius: 12px;
@@ -170,7 +180,7 @@ a { color: inherit; text-decoration: none; }
   margin: 24px auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -229,16 +239,22 @@ a { color: inherit; text-decoration: none; }
   border-radius: 50%;
   object-fit: cover;
 }
-.card-info { flex: 1; min-width: 0; }
+.card-info { flex: 1; min-width: 0; overflow: hidden; }
 .card-name {
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .card-name .flag { margin-left: 6px; }
 .card-spec {
   color: var(--text-light);
   font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .card-rating {
   display: flex;
@@ -255,6 +271,8 @@ a { color: inherit; text-decoration: none; }
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 12px;
+  overflow: hidden;
+  max-height: 60px;
 }
 .tag {
   background: #EEF2FF;
@@ -272,6 +290,8 @@ a { color: inherit; text-decoration: none; }
   margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 6px;
 }
 .card-price {
   font-size: 1.15rem;
@@ -306,8 +326,8 @@ a { color: inherit; text-decoration: none; }
   padding: 60px 20px;
   margin-top: 40px;
 }
-.cta-section h2 { font-size: 1.8rem; margin-bottom: 12px; }
-.cta-section p { opacity: 0.9; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.cta-section h2 { font-size: 1.8rem; margin-bottom: 12px; word-wrap: break-word; }
+.cta-section p { opacity: 0.9; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; word-wrap: break-word; }
 .cta-btn {
   display: inline-block;
   background: var(--accent);
@@ -334,10 +354,22 @@ a { color: inherit; text-decoration: none; }
 
 /* === RESPONSIVE === */
 @media (max-width: 640px) {
-  .hero h1 { font-size: 1.6rem; }
+  .hero { padding: 30px 16px 40px; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero p { font-size: 0.95rem; }
   .search-bar { flex-direction: column; }
-  .stats { gap: 20px; }
-  .grid { grid-template-columns: 1fr; }
+  .search-bar input,
+  .search-bar select,
+  .search-btn { width: 100%; }
+  .stats { gap: 16px; }
+  .stat-num { font-size: 1.2rem; }
+  .filters { padding: 0 16px; }
+  .grid { grid-template-columns: 1fr; padding: 0 16px; }
+  .card-body { padding: 14px; }
+  .cta-section { padding: 40px 16px; }
+  .cta-section h2 { font-size: 1.4rem; }
+  .header-cta { padding: 8px 14px; font-size: 0.8rem; }
+  .logo { font-size: 1.3rem; }
 }
 
 /* ========================================
@@ -347,7 +379,8 @@ a { color: inherit; text-decoration: none; }
 .reg-container {
   max-width: 680px;
   margin: 0 auto;
-  padding: 40px 20px 60px;
+  padding: 40px 16px 60px;
+  overflow-x: hidden;
 }
 
 .reg-header {
@@ -359,6 +392,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 2rem;
   color: var(--text);
   margin-bottom: 8px;
+  word-wrap: break-word;
 }
 
 .reg-header p {
@@ -432,6 +466,7 @@ a { color: inherit; text-decoration: none; }
 .reg-field select,
 .reg-field textarea {
   width: 100%;
+  max-width: 100%;
   padding: 10px 14px;
   border: 1.5px solid var(--border);
   border-radius: 10px;
@@ -440,6 +475,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--text);
   transition: border 0.2s;
   font-family: inherit;
+  -webkit-appearance: none;
 }
 
 .reg-field input:focus,
@@ -655,8 +691,17 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 640px) {
-  .reg-row { grid-template-columns: 1fr; }
+  .reg-container { padding: 24px 12px 40px; }
+  .reg-header h1 { font-size: 1.5rem; }
+  .reg-header p { font-size: 0.9rem; }
+  .reg-row { grid-template-columns: 1fr; gap: 0; }
   .reg-tipo-grid { grid-template-columns: 1fr; }
   .reg-summary-grid { grid-template-columns: 1fr; }
-  .reg-form { padding: 20px 16px; }
+  .reg-form { padding: 20px 14px; }
+  .reg-progress { gap: 16px; }
+  .reg-step-dot { width: 32px; height: 32px; font-size: 0.8rem; }
+  .reg-tags-grid { gap: 6px; }
+  .reg-tag { padding: 5px 10px; font-size: 0.8rem; }
+  .reg-nav { flex-direction: column; }
+  .reg-btn-next, .reg-btn-submit, .reg-btn-back { width: 100%; text-align: center; margin-left: 0; }
 }
